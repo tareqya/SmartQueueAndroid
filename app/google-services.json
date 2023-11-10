@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "295920829077",
+    "firebase_url": "https://smartqandroid-df1e0-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "smartqandroid-df1e0",
+    "storage_bucket": "smartqandroid-df1e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295920829077:android:4e0a3662e6400a0e47519c",
+        "android_client_info": {
+          "package_name": "com.samrtq"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBljKCbaMgE-BreMf8J4-ZUwlWTiSOC0po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
