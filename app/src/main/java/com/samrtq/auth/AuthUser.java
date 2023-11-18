@@ -1,4 +1,4 @@
-package com.samrtq.utils;
+package com.samrtq.auth;
 
 public class AuthUser {
     private String email;

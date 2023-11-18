@@ -44,7 +44,4 @@ public class User  extends FirebaseId{
         return this;
     }
 
-    public void save(){
-
-    }
 }

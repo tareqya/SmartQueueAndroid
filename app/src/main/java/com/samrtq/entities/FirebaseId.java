@@ -1,7 +1,7 @@
 package com.samrtq.entities;
 
 public class FirebaseId {
-    protected String id;
+    private String id;
 
     public FirebaseId() {
         this.id = "";
