@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".main.CancelAppointmentActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cancelAppointment_CV_appointment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="150dp"
+        app:cardCornerRadius="20dp"
+        android:elevation="8dp"
+        app:cardElevation="8dp"
+        android:layout_margin="10dp">
+
+        <RelativeLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/cancelAppointment_LL_doctorWrapper"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/cancelAppointment_IV_doctorImage"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/icon"
+                    />
+                <LinearLayout
+                    android:layout_marginStart="20dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/cancelAppointment_TV_doctorName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Doctor name"
+                        android:textColor="@color/green"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        />
+                    <TextView
+                        android:id="@+id/cancelAppointment_TV_doctorSpecialist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="doctor specialist"
+                        android:textSize="16sp"
+                        android:textColor="@color/gray"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/appointment_TV_appointmentTime"
+                android:layout_below="@id/cancelAppointment_LL_doctorWrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="05/12/2023 12:30"
+                android:textColor="@color/gray"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentEnd="true"
+                />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/cancelAppointment_BTN_cancel"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/red"
+        android:text="Cancel"
+        android:layout_below="@+id/cancelAppointment_CV_appointment"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        />
+
+</RelativeLayout>

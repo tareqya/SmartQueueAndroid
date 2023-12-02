@@ -47,7 +47,7 @@
             android:id="@+id/fAddAppointment_BTN_pickDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pick time"
+            android:text="Pick date"
 
             />
         <TextView
@@ -56,6 +56,69 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"/>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/fAddAppointment_LL_timeWrapper"
+        android:layout_below="@+id/fAddAppointment_LL_dateWrapper"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <Button
+            android:id="@+id/fAddAppointment_BTN_pickTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pick time"
 
+            />
+        <TextView
+            android:id="@+id/fAddAppointment_TV_pickTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/fAddAppointment_LL_doctorWrapper"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/fAddAppointment_LL_timeWrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select doctor"
+            android:textSize="20sp"
+            android:layout_marginEnd="10dp"
+            />
+        <Spinner
+            android:id="@+id/fAddAppointment_SP_doctor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/fAddAppointment_BTN_book"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Book"
+        android:layout_below="@+id/fAddAppointment_LL_doctorWrapper"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        />
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/fAddAppointment_PB_loading"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/fAddAppointment_BTN_book"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        />
 </RelativeLayout>
