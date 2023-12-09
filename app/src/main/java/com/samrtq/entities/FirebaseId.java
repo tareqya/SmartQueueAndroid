@@ -1,5 +1,7 @@
 package com.samrtq.entities;
 
+import com.google.firebase.database.Exclude;
+
 public class FirebaseId {
     private String id;
 
@@ -11,7 +13,7 @@ public class FirebaseId {
         this.id = id;
         return this;
     }
-
+    @Exclude
     public String getId() {
         return id;
     }

@@ -9,25 +9,50 @@ import androidx.fragment.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 import com.samrtq.R;
+import com.samrtq.callback.AppointmentCallBack;
+import com.samrtq.callback.DoctorCallBack;
+import com.samrtq.controls.AppointmentController;
+import com.samrtq.controls.DoctorController;
+import com.samrtq.entities.Appointment;
+import com.samrtq.entities.Doctor;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class AddAppointmentFragment extends Fragment {
 
     private Activity context;
+    private TextInputLayout fAddAppointment_TF_title;
+    private Spinner fAddAppointment_SP_doctor;
+    private Button fAddAppointment_BTN_pickTime;
+    private TextView fAddAppointment_TV_pickTime;
     private Button fAddAppointment_BTN_pickDate;
     private TextView fAddAppointment_TV_pickDate;
-
+    private Button fAddAppointment_BTN_book;
     private FragmentManager fragmentManager;
-    private MaterialDatePicker<Long> datePicker;
+    private DoctorController doctorController;
+    private AppointmentController appointmentController;
+    private CircularProgressIndicator fAddAppointment_PB_loading;
+
+
 
     public AddAppointmentFragment(Activity context, FragmentManager fragmentManager) {
         // Required empty public constructor
@@ -47,27 +72,126 @@ public class AddAppointmentFragment extends Fragment {
     }
 
     private void initVars() {
-        MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
-        builder.setTitleText("Select a date");
-        datePicker = builder.build();
+        doctorController = new DoctorController();
+        doctorController.setDoctorCallBack(new DoctorCallBack() {
+            @Override
+            public void onDoctorsFetchComplete(ArrayList<Doctor> doctors) {
+                ArrayAdapter<Doctor> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, doctors);
+                fAddAppointment_SP_doctor.setAdapter(adapter);
+            }
+        });
+        doctorController.fetchAllDoctors();
+
+        appointmentController = new AppointmentController();
+        appointmentController.setAppointmentCallBack(new AppointmentCallBack() {
+            @Override
+            public void onAddAppointmentComplete(Task<Void> task) {
+                fAddAppointment_PB_loading.setVisibility(View.INVISIBLE);
+                if(task.isSuccessful()){
+                    Toast.makeText(context, "Appointment added successfully", Toast.LENGTH_SHORT).show();
+                    fAddAppointment_TF_title.getEditText().setText("");
+                    fAddAppointment_TV_pickDate.setText("");
+                    fAddAppointment_TV_pickTime.setText("");
+                }else{
+                    Toast.makeText(context, task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         fAddAppointment_BTN_pickDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                toggleDatePicker();
+            }
+        });
 
-                datePicker.show(fragmentManager, "tag");
-                datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
-                    @Override
-                    public void onPositiveButtonClick(Long selection) {
-                        Date date = new Date(selection);
-                        fAddAppointment_TV_pickDate.setText(date.toString());
-                        // Create a SimpleDateFormat object with the desired format
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        fAddAppointment_BTN_pickTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleTimePicker();
+            }
+        });
 
-                        // Use the format() method to convert Date to String
-                        String formattedDate = sdf.format(date);
-                        fAddAppointment_TV_pickDate.setText(formattedDate);
+        fAddAppointment_BTN_book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if(!checkInputs()) {
+                        Toast.makeText(context, "Please fill all fields!", Toast.LENGTH_SHORT).show();
+                        return;
                     }
-                });
+                    bookAppointment();
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+    }
+
+    private boolean checkInputs() {
+        if(fAddAppointment_TV_pickDate.getText().toString().length() == 0){
+            return false;
+        }
+        if(fAddAppointment_TV_pickTime.getText().toString().length() == 0 ){
+            return false;
+        }
+        return true;
+    }
+
+    private void bookAppointment() throws ParseException {
+
+        String dateTimeString = fAddAppointment_TV_pickDate.getText().toString() + " " + fAddAppointment_TV_pickTime.getText().toString(); // Replace this with your date and time string
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+
+        Date dateTime = sdf.parse(dateTimeString);
+        String title = fAddAppointment_TF_title.getEditText().getText().toString();
+        Doctor doctor = (Doctor) fAddAppointment_SP_doctor.getSelectedItem();
+
+        Appointment appointment = new Appointment()
+                .setDate(dateTime)
+                .setDoctor(doctor)
+                .setTitle(title);
+
+        appointmentController.addAppointment(appointment);
+        fAddAppointment_PB_loading.setVisibility(View.VISIBLE);
+    }
+
+    private void toggleTimePicker() {
+        MaterialTimePicker picker =
+                new MaterialTimePicker.Builder()
+                        .setTimeFormat(TimeFormat.CLOCK_24H)
+                        .setHour(12)
+                        .setMinute(10)
+                        .setTitleText("Select Appointment time")
+                        .build();
+
+        picker.show(fragmentManager, "timePicker");
+
+        picker.addOnPositiveButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String time = picker.getHour() + ":" + picker.getMinute();
+                fAddAppointment_TV_pickTime.setText(time);
+            }
+        });
+    }
+
+    private void toggleDatePicker() {
+        MaterialDatePicker.Builder<Long> builder = MaterialDatePicker.Builder.datePicker();
+        builder.setTitleText("Select a date");
+        MaterialDatePicker<Long> datePicker = builder.build();
+        datePicker.show(fragmentManager, "datePicker");
+        datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+            @Override
+            public void onPositiveButtonClick(Long selection) {
+                Date date = new Date(selection);
+                fAddAppointment_TV_pickDate.setText(date.toString());
+                // Create a SimpleDateFormat object with the desired format
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+                // Use the format() method to convert Date to String
+                String formattedDate = sdf.format(date);
+                fAddAppointment_TV_pickDate.setText(formattedDate);
             }
         });
     }
@@ -75,5 +199,12 @@ public class AddAppointmentFragment extends Fragment {
     private void findViews(View root) {
         fAddAppointment_BTN_pickDate = root.findViewById(R.id.fAddAppointment_BTN_pickDate);
         fAddAppointment_TV_pickDate = root.findViewById(R.id.fAddAppointment_TV_pickDate);
+        fAddAppointment_SP_doctor = root.findViewById(R.id.fAddAppointment_SP_doctor);
+        fAddAppointment_BTN_pickTime = root.findViewById(R.id.fAddAppointment_BTN_pickTime);
+        fAddAppointment_TV_pickTime = root.findViewById(R.id.fAddAppointment_TV_pickTime);
+        fAddAppointment_BTN_book = root.findViewById(R.id.fAddAppointment_BTN_book);
+        fAddAppointment_PB_loading = root.findViewById(R.id.fAddAppointment_PB_loading);
+        fAddAppointment_TF_title = root.findViewById(R.id.fAddAppointment_TF_title);
+
     }
 }

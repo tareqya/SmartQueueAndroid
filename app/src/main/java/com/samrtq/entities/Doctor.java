@@ -34,4 +34,8 @@ public class Doctor extends FirebaseId {
         this.specialist = specialist;
         return this;
     }
+
+    public String toString(){
+        return this.name;
+    }
 }
