@@ -2,7 +2,9 @@ package com.samrtq.entities;
 
 import com.google.firebase.database.Exclude;
 
-public class FirebaseId {
+import java.io.Serializable;
+
+public class FirebaseId implements Serializable {
     private String id;
 
     public FirebaseId() {

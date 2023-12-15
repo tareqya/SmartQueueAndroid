@@ -1,6 +1,8 @@
 package com.samrtq.entities;
 
-public class Doctor extends FirebaseId {
+import java.io.Serializable;
+
+public class Doctor extends FirebaseId implements Serializable {
 
     private String name;
     private String imageUrl;

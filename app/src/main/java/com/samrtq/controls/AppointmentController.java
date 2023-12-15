@@ -4,11 +4,17 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.samrtq.callback.AppointmentCallBack;
 import com.samrtq.entities.Appointment;
 import com.samrtq.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public class AppointmentController {
 
@@ -31,5 +37,30 @@ public class AppointmentController {
         });
     }
 
+    public void fetchUserAppointment(String uid){
+        StorageController storageController = new StorageController();
+        mDatabase.child(Constants.APPOINTMENT_TABLE)
+                .addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Appointment> appointments = new ArrayList<>();
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    Appointment appointment = dataSnapshot.getValue(Appointment.class);
+                    appointment.setId(dataSnapshot.getKey());
+                    if(appointment.getClientId().equals(uid) && appointment.getDate().compareTo(new Date()) > 0){
+                        String imageUrl = storageController.downloadImageUrl(appointment.getDoctor().getImageUrl());
+                        appointment.getDoctor().setImageUrl(imageUrl);
+                        appointments.add(appointment);
+                    }
+                }
 
+                appointmentCallBack.onFetchUserAppointmentsComplete(appointments);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }

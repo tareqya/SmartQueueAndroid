@@ -26,6 +26,7 @@ import com.samrtq.R;
 import com.samrtq.callback.AppointmentCallBack;
 import com.samrtq.callback.DoctorCallBack;
 import com.samrtq.controls.AppointmentController;
+import com.samrtq.controls.AuthControl;
 import com.samrtq.controls.DoctorController;
 import com.samrtq.entities.Appointment;
 import com.samrtq.entities.Doctor;
@@ -96,6 +97,11 @@ public class AddAppointmentFragment extends Fragment {
                     Toast.makeText(context, task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
                 }
             }
+
+            @Override
+            public void onFetchUserAppointmentsComplete(ArrayList<Appointment> appointments) {
+
+            }
         });
 
         fAddAppointment_BTN_pickDate.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +145,7 @@ public class AddAppointmentFragment extends Fragment {
     }
 
     private void bookAppointment() throws ParseException {
-
+        AuthControl authControl = new AuthControl();
         String dateTimeString = fAddAppointment_TV_pickDate.getText().toString() + " " + fAddAppointment_TV_pickTime.getText().toString(); // Replace this with your date and time string
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
 
@@ -147,10 +153,12 @@ public class AddAppointmentFragment extends Fragment {
         String title = fAddAppointment_TF_title.getEditText().getText().toString();
         Doctor doctor = (Doctor) fAddAppointment_SP_doctor.getSelectedItem();
 
+        String uid = authControl.getCurrentUser().getUid();
         Appointment appointment = new Appointment()
                 .setDate(dateTime)
                 .setDoctor(doctor)
-                .setTitle(title);
+                .setTitle(title)
+                .setClientId(uid);
 
         appointmentController.addAppointment(appointment);
         fAddAppointment_PB_loading.setVisibility(View.VISIBLE);

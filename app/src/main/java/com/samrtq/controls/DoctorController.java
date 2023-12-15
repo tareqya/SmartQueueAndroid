@@ -29,23 +29,16 @@ public class DoctorController {
     }
 
     public void fetchAllDoctors(){
-        mDatabase.child(Constants.DOCTOR_TABLE).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        mDatabase.child(Constants.DOCTOR_TABLE).get()
+                .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                ArrayList<Doctor> data = new ArrayList<>();
-                if(task.isSuccessful()){
-                    GenericTypeIndicator<ArrayList<Doctor>> typeIndicator = new GenericTypeIndicator<ArrayList<Doctor>>() {};
-                    data = task.getResult().getValue(typeIndicator);
-                    ArrayList<Doctor> doctors = new ArrayList<>();
-                    for(Doctor d: data){
-                        if(d != null){
-                            doctors.add(d);
-                        }
-                    }
-                    doctorCallBack.onDoctorsFetchComplete(doctors);
-                }else{
-                    doctorCallBack.onDoctorsFetchComplete(data);
+                ArrayList<Doctor> doctors = new ArrayList<>();
+                for (DataSnapshot childSnapshot : task.getResult().getChildren()) {
+                    Doctor doctor = childSnapshot.getValue(Doctor.class);
+                    doctors.add(doctor);
                 }
+                doctorCallBack.onDoctorsFetchComplete(doctors);
             }
         });
     }
