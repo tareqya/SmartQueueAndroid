@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFetchUserAppointmentsComplete(ArrayList<Appointment> userAppointments) {
+            public void onFetchAppointmentsComplete(ArrayList<Appointment> userAppointments) {
                 appointments = userAppointments;
                 Collections.sort(appointments);
 
@@ -87,6 +87,16 @@ public class HomeFragment extends Fragment {
                 fHome_RV_appointments.setHasFixedSize(true);
                 fHome_RV_appointments.setItemAnimator(new DefaultItemAnimator());
                 fHome_RV_appointments.setAdapter(appointmentAdapter);
+            }
+
+            @Override
+            public void onCancelAppointmentComplete(Task<Void> task) {
+
+            }
+
+            @Override
+            public void onUpdateAppointmentComplete(Task<Void> task) {
+
             }
         });
 

@@ -4,22 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Appointment extends FirebaseId implements Comparable<Appointment>, Serializable {
-    private String title;
     private Date date;
     private Doctor doctor;
 
     private String clientId;
 
     public Appointment() {}
-
-    public String getTitle() {
-        return title;
-    }
-
-    public Appointment setTitle(String title) {
-        this.title = title;
-        return this;
-    }
 
     public Date getDate() {
         return date;

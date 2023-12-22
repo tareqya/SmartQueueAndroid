@@ -41,7 +41,6 @@ import java.util.Locale;
 public class AddAppointmentFragment extends Fragment {
 
     private Activity context;
-    private TextInputLayout fAddAppointment_TF_title;
     private Spinner fAddAppointment_SP_doctor;
     private Button fAddAppointment_BTN_pickTime;
     private TextView fAddAppointment_TV_pickTime;
@@ -90,7 +89,6 @@ public class AddAppointmentFragment extends Fragment {
                 fAddAppointment_PB_loading.setVisibility(View.INVISIBLE);
                 if(task.isSuccessful()){
                     Toast.makeText(context, "Appointment added successfully", Toast.LENGTH_SHORT).show();
-                    fAddAppointment_TF_title.getEditText().setText("");
                     fAddAppointment_TV_pickDate.setText("");
                     fAddAppointment_TV_pickTime.setText("");
                 }else{
@@ -99,7 +97,17 @@ public class AddAppointmentFragment extends Fragment {
             }
 
             @Override
-            public void onFetchUserAppointmentsComplete(ArrayList<Appointment> appointments) {
+            public void onFetchAppointmentsComplete(ArrayList<Appointment> appointments) {
+
+            }
+
+            @Override
+            public void onCancelAppointmentComplete(Task<Void> task) {
+
+            }
+
+            @Override
+            public void onUpdateAppointmentComplete(Task<Void> task) {
 
             }
         });
@@ -150,14 +158,12 @@ public class AddAppointmentFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
 
         Date dateTime = sdf.parse(dateTimeString);
-        String title = fAddAppointment_TF_title.getEditText().getText().toString();
         Doctor doctor = (Doctor) fAddAppointment_SP_doctor.getSelectedItem();
 
         String uid = authControl.getCurrentUser().getUid();
         Appointment appointment = new Appointment()
                 .setDate(dateTime)
                 .setDoctor(doctor)
-                .setTitle(title)
                 .setClientId(uid);
 
         appointmentController.addAppointment(appointment);
@@ -193,7 +199,6 @@ public class AddAppointmentFragment extends Fragment {
             @Override
             public void onPositiveButtonClick(Long selection) {
                 Date date = new Date(selection);
-                fAddAppointment_TV_pickDate.setText(date.toString());
                 // Create a SimpleDateFormat object with the desired format
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -212,7 +217,6 @@ public class AddAppointmentFragment extends Fragment {
         fAddAppointment_TV_pickTime = root.findViewById(R.id.fAddAppointment_TV_pickTime);
         fAddAppointment_BTN_book = root.findViewById(R.id.fAddAppointment_BTN_book);
         fAddAppointment_PB_loading = root.findViewById(R.id.fAddAppointment_PB_loading);
-        fAddAppointment_TF_title = root.findViewById(R.id.fAddAppointment_TF_title);
 
     }
 }

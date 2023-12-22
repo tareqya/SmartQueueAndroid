@@ -62,7 +62,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/appointment_TV_appointmentTime"
+                android:id="@+id/cancelAppointment_TV_appointmentTime"
                 android:layout_below="@id/cancelAppointment_LL_doctorWrapper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

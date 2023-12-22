@@ -141,100 +141,102 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/appointmentManagement_CV_cancel"
-        android:layout_below="@+id/appointmentManagement_CV_reschedule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/appointmentManagement_CV_reschedule"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="8dp"
         android:minHeight="100dp"
         app:cardCornerRadius="20dp"
-        android:elevation="8dp"
-        app:cardElevation="8dp"
-        android:layout_margin="10dp"
-        >
+        app:cardElevation="8dp">
 
         <LinearLayout
-            android:paddingHorizontal="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:paddingHorizontal="10dp">
 
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/cancel"
-                />
+                android:src="@drawable/cancel" />
+
             <LinearLayout
-                android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+
                 <TextView
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/green"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cancel your appointment"
-                    />
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Press here to cancel your appointment"
-                    android:textSize="12sp"
                     android:textColor="@color/gray"
-                    />
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/appointmentManagement_CV_closer"
-        android:layout_below="@+id/appointmentManagement_CV_cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/appointmentManagement_CV_cancel"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="8dp"
         android:minHeight="100dp"
         app:cardCornerRadius="20dp"
-        android:elevation="8dp"
-        app:cardElevation="8dp"
-        android:layout_margin="10dp"
-        >
+        app:cardElevation="8dp">
 
         <LinearLayout
-            android:paddingHorizontal="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:paddingHorizontal="10dp">
 
             <ImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/waiting"
-                />
+                android:src="@drawable/waiting" />
+
             <LinearLayout
-                android:layout_marginStart="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+
                 <TextView
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/green"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Look for a closer appointment"
-                    />
+                    android:textColor="@color/green"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Press here to search for closer appointment"
-                    android:textSize="12sp"
                     android:textColor="@color/gray"
-                    />
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -16,27 +16,9 @@
         android:textColor="@color/black"
         />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fAddAppointment_TF_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Title"
-        style="?attr/textInputOutlinedStyle"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_below="@+id/fAddAppointment_TV_title">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
     <LinearLayout
         android:id="@+id/fAddAppointment_LL_dateWrapper"
-        android:layout_below="@+id/fAddAppointment_TF_title"
+        android:layout_below="@+id/fAddAppointment_TV_title"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="20dp"
         android:orientation="horizontal"

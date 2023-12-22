@@ -7,5 +7,7 @@ import java.util.ArrayList;
 
 public interface AppointmentCallBack {
     void onAddAppointmentComplete(Task<Void> task);
-    void onFetchUserAppointmentsComplete(ArrayList<Appointment>appointments);
+    void onFetchAppointmentsComplete(ArrayList<Appointment>appointments);
+    void onCancelAppointmentComplete(Task<Void> task);
+    void onUpdateAppointmentComplete(Task<Void> task);
 }

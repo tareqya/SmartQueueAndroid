@@ -1,9 +1,11 @@
 package com.samrtq.main;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,13 +22,16 @@ public class AppointmentManagementActivity extends AppCompatActivity {
     private TextView appointmentManagement_TV_doctorSpecialist;
     private TextView appointmentManagement_TV_appointmentTime;
     private Appointment appointment;
+    private CardView appointmentManagement_CV_reschedule;
+    private CardView appointmentManagement_CV_cancel;
+    private CardView appointmentManagement_CV_closer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_management);
 
         Intent intent = getIntent();
-
         appointment = (Appointment) intent.getSerializableExtra(Constants.SELECTED_APPOINTMENT);
         
         findViews();
@@ -39,11 +44,37 @@ public class AppointmentManagementActivity extends AppCompatActivity {
         appointmentManagement_TV_doctorName = findViewById(R.id.appointmentManagement_TV_doctorName);
         appointmentManagement_TV_doctorSpecialist = findViewById(R.id.appointmentManagement_TV_doctorSpecialist);
         appointmentManagement_TV_appointmentTime = findViewById(R.id.appointmentManagement_TV_appointmentTime);
-
+        appointmentManagement_CV_closer = findViewById(R.id.appointmentManagement_CV_closer);
+        appointmentManagement_CV_cancel = findViewById(R.id.appointmentManagement_CV_cancel);
+        appointmentManagement_CV_reschedule = findViewById(R.id.appointmentManagement_CV_reschedule);
     }
 
     private void initVars() {
+        appointmentManagement_CV_reschedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AppointmentManagementActivity.this, RescheduleAppointmentActivity.class);
+                intent.putExtra(Constants.SELECTED_APPOINTMENT, appointment);
+                startActivity(intent);
+            }
+        });
+        appointmentManagement_CV_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AppointmentManagementActivity.this, CancelAppointmentActivity.class);
+                intent.putExtra(Constants.SELECTED_APPOINTMENT, appointment);
+                startActivity(intent);
+            }
+        });
 
+        appointmentManagement_CV_closer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AppointmentManagementActivity.this, CloserAppointmentActivity.class);
+                intent.putExtra(Constants.SELECTED_APPOINTMENT, appointment);
+                startActivity(intent);
+            }
+        });
     }
 
     private void displayAppointment(){
