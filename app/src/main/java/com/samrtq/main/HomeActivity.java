@@ -8,14 +8,13 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.samrtq.R;
 import com.samrtq.callback.UserDataCallBack;
 import com.samrtq.controls.AuthControl;
-import com.samrtq.controls.UserControl;
+import com.samrtq.controls.UserController;
 import com.samrtq.entities.User;
 
 public class HomeActivity extends AppCompatActivity {
@@ -24,7 +23,7 @@ public class HomeActivity extends AppCompatActivity {
     private AddAppointmentFragment addAppointmentFragment;
     private FrameLayout home_frame_home, home_frame_profile, home_frame_addAppointment;
     private BottomNavigationView home_BN;
-    private UserControl userControl;
+    private UserController userController;
     private AuthControl authControl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initVars() {
         authControl = new AuthControl();
-        userControl = new UserControl();
+        userController = new UserController();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -85,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void fetchCurrentUser() {
-        userControl.setUserDataCallBack(new UserDataCallBack() {
+        userController.setUserDataCallBack(new UserDataCallBack() {
             @Override
             public void onSaveUserComplete(boolean status, String msg) {
 
@@ -93,9 +92,10 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onUserDataFetchComplete(User fetchedUser) {
                 homeFragment.setUser(fetchedUser);
+                profileFragment.setUser(fetchedUser);
             }
         });
 
-        userControl.getUserData(authControl.getCurrentUser().getUid());
+        userController.getUserData(authControl.getCurrentUser().getUid());
     }
 }

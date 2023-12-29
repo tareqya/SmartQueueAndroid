@@ -25,4 +25,23 @@
         android:layout_height="match_parent"
 
         />
+    <LinearLayout
+        android:id="@+id/closerAppointments_LL_empty"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/empty"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Appointments found"
+            />
+    </LinearLayout>
 </RelativeLayout>

@@ -1,10 +1,16 @@
 package com.samrtq.entities;
 
-public class User  extends FirebaseId{
+import com.google.firebase.database.Exclude;
+
+import java.io.Serializable;
+
+public class User  extends FirebaseId implements Serializable {
     private String firstName;
     private String lastName;
     private String phone;
     private String email;
+    private String imagePath;
+    private String imageUrl;
 
     public User() {}
 
@@ -44,4 +50,25 @@ public class User  extends FirebaseId{
         return this;
     }
 
+    public User setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+        return this;
+    }
+
+    public User setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+    @Exclude
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    @Exclude
+    public String getFullName(){
+        return this.firstName + " " + this.lastName;
+    }
 }

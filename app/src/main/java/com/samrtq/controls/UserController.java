@@ -1,7 +1,5 @@
 package com.samrtq.controls;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -15,11 +13,11 @@ import com.samrtq.callback.UserDataCallBack;
 import com.samrtq.entities.User;
 import com.samrtq.utils.Constants;
 
-public class UserControl {
+public class UserController {
     private DatabaseReference mDatabase;
     private UserDataCallBack userDataCallBack;
 
-    public UserControl(){
+    public UserController(){
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
@@ -46,6 +44,12 @@ public class UserControl {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
+                if(user.getImagePath() != null){
+                    StorageController storageController = new StorageController();
+                    String imageUrl = storageController.downloadImageUrl(user.getImagePath());
+                    user.setImageUrl(imageUrl);
+                }
+                user.setId(uid);
                 userDataCallBack.onUserDataFetchComplete(user);
             }
 

@@ -38,6 +38,6 @@ public class Doctor extends FirebaseId implements Serializable {
     }
 
     public String toString(){
-        return this.name;
+        return this.name + " - " + this.specialist;
     }
 }

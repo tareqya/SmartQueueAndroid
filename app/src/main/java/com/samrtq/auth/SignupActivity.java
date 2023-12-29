@@ -13,7 +13,7 @@ import com.samrtq.R;
 import com.samrtq.callback.AuthCallBack;
 import com.samrtq.callback.UserDataCallBack;
 import com.samrtq.controls.AuthControl;
-import com.samrtq.controls.UserControl;
+import com.samrtq.controls.UserController;
 import com.samrtq.entities.User;
 
 public class SignupActivity extends AppCompatActivity {
@@ -26,7 +26,7 @@ public class SignupActivity extends AppCompatActivity {
     private Button signup_BTN_createAccount;
     private CircularProgressIndicator signup_PB_loading;
     private AuthControl authControl;
-    private UserControl userControl;
+    private UserController userController;
     private AuthUser authUser;
 
     @Override
@@ -52,7 +52,7 @@ public class SignupActivity extends AppCompatActivity {
     private void initVars() {
 
         authControl = new AuthControl();
-        userControl = new UserControl();
+        userController = new UserController();
 
         signup_BTN_createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +68,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        userControl.setUserDataCallBack(new UserDataCallBack() {
+        userController.setUserDataCallBack(new UserDataCallBack() {
             @Override
             public void onSaveUserComplete(boolean status, String msg) {
                 if(status){
@@ -103,7 +103,7 @@ public class SignupActivity extends AppCompatActivity {
                             .setLastName(lastName)
                             .setPhone("");
                     user.setId(authControl.getCurrentUser().getUid());
-                    userControl.SaveUserData(user);
+                    userController.SaveUserData(user);
                 }else {
                     signup_PB_loading.setVisibility(View.INVISIBLE);
                 }

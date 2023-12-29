@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,8 @@ public class HomeFragment extends Fragment {
     private ArrayList<Appointment> appointments;
     private TextView fHome_TV_name;
     private RecyclerView fHome_RV_appointments;
+    private LinearLayout fHome_LL_empty;
+
 
     public HomeFragment(Activity context) {
         // Required empty public constructor
@@ -71,6 +74,12 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFetchAppointmentsComplete(ArrayList<Appointment> userAppointments) {
+                if(userAppointments.size() == 0){
+                    fHome_LL_empty.setVisibility(View.VISIBLE);
+                }else{
+                    fHome_LL_empty.setVisibility(View.GONE);
+                }
+
                 appointments = userAppointments;
                 Collections.sort(appointments);
 
@@ -107,5 +116,6 @@ public class HomeFragment extends Fragment {
     private void findViews(View root) {
         fHome_TV_name = root.findViewById(R.id.fHome_TV_name);
         fHome_RV_appointments = root.findViewById(R.id.fHome_RV_appointments);
+        fHome_LL_empty = root.findViewById(R.id.fHome_LL_empty);
     }
 }

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Task;
@@ -29,6 +31,7 @@ public class CloserAppointmentActivity extends AppCompatActivity {
     private ArrayList<Appointment> appointments;
     private AppointmentController appointmentController;
     private RecyclerView closerAppointments_RV_appointments;
+    private LinearLayout closerAppointments_LL_empty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class CloserAppointmentActivity extends AppCompatActivity {
 
     private void findViews() {
         closerAppointments_RV_appointments = findViewById(R.id.closerAppointments_RV_appointments);
+        closerAppointments_LL_empty = findViewById(R.id.closerAppointments_LL_empty);
 
     }
 
@@ -56,6 +60,11 @@ public class CloserAppointmentActivity extends AppCompatActivity {
 
             @Override
             public void onFetchAppointmentsComplete(ArrayList<Appointment> arr) {
+                if(arr.size() == 0){
+                    closerAppointments_LL_empty.setVisibility(View.VISIBLE);
+                }else {
+                    closerAppointments_LL_empty.setVisibility(View.GONE);
+                }
                 appointments = arr;
                 Collections.sort(appointments);
                 AppointmentAdapter appointmentAdapter = new AppointmentAdapter(CloserAppointmentActivity.this, appointments);
