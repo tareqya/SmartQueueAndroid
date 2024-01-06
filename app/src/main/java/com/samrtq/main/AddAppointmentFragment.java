@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import com.samrtq.entities.Doctor;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -88,9 +90,26 @@ public class AddAppointmentFragment extends Fragment {
             public void onAddAppointmentComplete(Task<Void> task) {
                 fAddAppointment_PB_loading.setVisibility(View.INVISIBLE);
                 if(task.isSuccessful()){
-                    Toast.makeText(context, "Appointment added successfully", Toast.LENGTH_SHORT).show();
-                    fAddAppointment_TV_pickDate.setText("");
-                    fAddAppointment_TV_pickTime.setText("");
+                    try {
+                        // add notification schedule
+                        String dateTimeString = fAddAppointment_TV_pickDate.getText().toString() + " " + fAddAppointment_TV_pickTime.getText().toString(); // Replace this with your date and time string
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                        Date parsedDate = sdf.parse(dateTimeString);
+                        // Create a Calendar instance and set its time to the parsed date
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(parsedDate);
+                        // Set the calendar to a previous date, for example, one day ago
+                        calendar.add(Calendar.DAY_OF_MONTH, -1);
+                        String msg = "You appointment at: " + dateTimeString;
+                        ((HomeActivity) context).scheduleNotification(calendar, msg);
+
+                        Toast.makeText(context, "Appointment added successfully", Toast.LENGTH_SHORT).show();
+                        fAddAppointment_TV_pickDate.setText("");
+                        fAddAppointment_TV_pickTime.setText("");
+                    } catch (ParseException e) {
+                        Log.d("myLog", e.getMessage().toString());
+                    }
+
                 }else{
                     Toast.makeText(context, task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
                 }

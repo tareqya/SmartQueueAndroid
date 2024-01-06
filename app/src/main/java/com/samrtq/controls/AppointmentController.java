@@ -13,6 +13,7 @@ import com.samrtq.callback.AppointmentCallBack;
 import com.samrtq.entities.Appointment;
 import com.samrtq.utils.Constants;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -31,7 +32,9 @@ public class AppointmentController {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+
                 appointmentCallBack.onAddAppointmentComplete(task);
+
             }
         });
     }
