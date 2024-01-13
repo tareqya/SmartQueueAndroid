@@ -179,9 +179,15 @@ public class AddAppointmentFragment extends Fragment {
 
         Date dateTime = sdf.parse(dateTimeString);
         Date minDate = new Date();
+        minDate.setYear(dateTime.getYear());
+        minDate.setMonth(dateTime.getMonth());
+        minDate.setDate(dateTime.getDate());
         minDate.setHours(8);
 
         Date maxDate = new Date();
+        maxDate.setYear(dateTime.getYear());
+        maxDate.setMonth(dateTime.getMonth());
+        maxDate.setDate(dateTime.getDate());
         maxDate.setHours(16);
 
         if (dateTime.before(minDate) || dateTime.after(maxDate)){
