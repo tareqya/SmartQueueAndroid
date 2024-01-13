@@ -8,6 +8,10 @@ import android.provider.MediaStore;
 import android.webkit.MimeTypeMap;
 
 import java.io.ByteArrayOutputStream;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Generic {
     public static String getFileExtension(Activity activity, Uri uri){
@@ -22,4 +26,5 @@ public class Generic {
         String path = MediaStore.Images.Media.insertImage(activity.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
+
 }

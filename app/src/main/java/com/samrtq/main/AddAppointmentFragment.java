@@ -31,7 +31,9 @@ import com.samrtq.controls.AuthControl;
 import com.samrtq.controls.DoctorController;
 import com.samrtq.entities.Appointment;
 import com.samrtq.entities.Doctor;
+import com.samrtq.utils.Generic;
 
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -102,7 +104,6 @@ public class AddAppointmentFragment extends Fragment {
                         calendar.add(Calendar.DAY_OF_MONTH, -1);
                         String msg = "You appointment at: " + dateTimeString;
                         ((HomeActivity) context).scheduleNotification(calendar, msg);
-
                         Toast.makeText(context, "Appointment added successfully", Toast.LENGTH_SHORT).show();
                         fAddAppointment_TV_pickDate.setText("");
                         fAddAppointment_TV_pickTime.setText("");
@@ -177,6 +178,17 @@ public class AddAppointmentFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
 
         Date dateTime = sdf.parse(dateTimeString);
+        Date minDate = new Date();
+        minDate.setHours(8);
+
+        Date maxDate = new Date();
+        maxDate.setHours(16);
+
+        if (dateTime.before(minDate) || dateTime.after(maxDate)){
+            Toast.makeText(context, "Appointment time must be between 8:00-16:00", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Doctor doctor = (Doctor) fAddAppointment_SP_doctor.getSelectedItem();
 
         String uid = authControl.getCurrentUser().getUid();
