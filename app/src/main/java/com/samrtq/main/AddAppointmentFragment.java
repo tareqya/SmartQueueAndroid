@@ -190,8 +190,39 @@ public class AddAppointmentFragment extends Fragment {
         maxDate.setDate(dateTime.getDate());
         maxDate.setHours(16);
 
+        Date breakDateStart = new Date();
+        breakDateStart.setYear(dateTime.getYear());
+        breakDateStart.setMonth(dateTime.getMonth());
+        breakDateStart.setDate(dateTime.getDate());
+        breakDateStart.setHours(12);
+        breakDateStart.setMinutes(0);
+
+        Date breakDateEnd = new Date();
+        breakDateEnd.setYear(dateTime.getYear());
+        breakDateEnd.setMonth(dateTime.getMonth());
+        breakDateEnd.setDate(dateTime.getDate());
+        breakDateEnd.setHours(13);
+        breakDateEnd.setMinutes(0);
+
+
         if (dateTime.before(minDate) || dateTime.after(maxDate)){
             Toast.makeText(context, "Appointment time must be between 8:00-16:00", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(dateTime.after(breakDateStart) && dateTime.before(breakDateEnd)) {
+            Toast.makeText(context, "Appointment time can not be between 12:00 - 13:00 (break time)", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Convert the Date object to a Calendar object
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dateTime);
+
+        // Check if it's week end
+        if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+            // It's weekend
+            Toast.makeText(context, "Appointment time can not be in the weekend", Toast.LENGTH_SHORT).show();
             return;
         }
 
